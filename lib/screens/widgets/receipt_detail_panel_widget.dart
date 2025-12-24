@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/models/sku_master.dart' show SkuMaster;
 import 'package:flutter_application_2/services/receipt_item_service.dart'; // ✅ ใช้ receipt_item_service.dart
 import 'package:flutter_application_2/models/receipt_item.dart';
+import 'package:flutter_application_2/utils/sku_helper.dart';
 
-/// Widget สำหรับแสดงรายละเอียดใบเสร็จ/บิล
-/// ใช้แสดงข้อมูลเมื่อเลือกใบเสร็จจาก OrderListPanel
+// Widget สำหรับแสดงรายละเอียดใบเสร็จ/บิล
+// ใช้แสดงข้อมูลเมื่อเลือกใบเสร็จจาก OrderListPanel
+
 class ReceiptDetailPanelWidget extends StatelessWidget {
   final int receiptId;
   final String token;
+  final List<SkuMaster> skuMasters;
 
   const ReceiptDetailPanelWidget({
     super.key,
     required this.receiptId,
     required this.token,
+    required this.skuMasters,
   });
 
   @override
@@ -31,127 +36,50 @@ class ReceiptDetailPanelWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: FutureBuilder<List<ReceiptItems>>(
-          future: ReceiptItemService.fetchReceiptItems(
-            token,
-            receiptId,
-          ), // ✅ เปลี่ยนเป็น ReceiptItemService
+        child: FutureBuilder<List<ReceiptItem>>(
+          future: ReceiptItemService.fetchByReceiptId(token, receiptId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-
-            if (snapshot.hasError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.error_outline,
-                      size: 64,
-                      color: Colors.red,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Error: ${snapshot.error}',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  ],
-                ),
-              );
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('No items'));
             }
 
-            if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.inbox, size: 64, color: Colors.grey),
-                    SizedBox(height: 16),
-                    Text(
-                      'No items in this receipt',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              );
+            if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
             }
 
             final items = snapshot.data!;
-            final totalAmount = items.fold<double>(
-              0,
-              (sum, item) => sum + item.subtotal,
-            );
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header
-                Text(
-                  'Receipt Details #$receiptId',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Divider(height: 32),
+            if (items.isEmpty) {
+              return const Center(child: Text('No items in this receipt'));
+            }
 
-                // Items List
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        child: ListTile(
-                          title: Text(
-                            item.name,
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: Text(
-                            '฿${item.price.toStringAsFixed(2)} × ${item.quantity}',
-                          ),
-                          trailing: Text(
-                            '฿${item.subtotal.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+            return ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
 
-                // Total
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Total:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '฿${totalAmount.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ],
+                final SkuName = SkuHelper.getSkuName(
+                  skuId: item.skuMasterId,
+                  skus: skuMasters,
+                );
+
+                return ListTile(
+                  title: Text(
+                    SkuName,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
                   ),
-                ),
-              ],
+                  subtitle: Text(
+                    'Amout: ${item.quantity} • ${item.quantity * item.price}฿',
+                  ),
+                );
+              },
             );
           },
         ),

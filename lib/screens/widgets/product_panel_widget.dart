@@ -23,11 +23,32 @@ class ProductPanelWidget extends StatelessWidget {
         decoration: CommonWidgets.boxStyle(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
+            TextFormField(
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.shopping_cart,
+                color: Colors.black,
+                size: 30,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/ProductItem');
+              },
+            ),
             const Text(
               'Products',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 12),
             Expanded(
               child: isLoading

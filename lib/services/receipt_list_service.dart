@@ -28,18 +28,18 @@ class ReceiptListService {
       }
 
       // ถ้า response เป็น Map
-      if (data is Map) {
-        // ลองหา key ที่เป็น Array
-        if (data.containsKey('receipts')) {
-          final List items = data['receipts'];
-          return items.map((e) => Receipt.fromJson(e)).toList();
-        } else if (data.containsKey('data')) {
-          final List items = data['data'];
-          return items.map((e) => Receipt.fromJson(e)).toList();
-        }
+      // if (data is Map) {
+      //   // ลองหา key ที่เป็น Array
+      //   if (data.containsKey('receipts')) {
+      //     final List items = data['receipts'];
+      //     return items.map((e) => Receipt.fromJson(e)).toList();
+      //   } else if (data.containsKey('data')) {
+      //     final List items = data['data'];
+      //     return items.map((e) => Receipt.fromJson(e)).toList();
+      //   }
 
-        throw Exception('Unexpected JSON format. Keys: ${data.keys}');
-      }
+      //   throw Exception('Unexpected JSON format. Keys: ${data.keys}');
+      // }
 
       throw Exception('Unknown data type: ${data.runtimeType}');
     }

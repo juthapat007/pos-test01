@@ -12,6 +12,7 @@ import 'widgets/manage_product_panel_widget.dart';
 import 'widgets/manage_side_panel_widget.dart';
 import 'widgets/order_panel_widget.dart';
 import 'widgets/order_list_panel_widget.dart'; // ✅ เพิ่ม import
+import 'package:flutter_application_2/utils/sku_helper.dart';
 
 enum MenuPage { products, manageProducts, orders }
 
@@ -282,7 +283,7 @@ class _ProductItemState extends State<ProductItem> {
     return DefaultTabController(
       length: 1,
       child: Scaffold(
-        appBar: AppBar(title: const Text('POS / Products')),
+        appBar: AppBar(title: const Text('POS! / Products')),
         body: TabBarView(
           children: [
             Padding(
@@ -309,6 +310,7 @@ class _ProductItemState extends State<ProductItem> {
   Widget _buildCenterPanel() {
     switch (currentPage) {
       case MenuPage.manageProducts:
+        //หน้าจัดการ
         return ManageProductPanelWidget(
           products: products,
           onAddPressed: onAddProductPressed,
@@ -318,13 +320,14 @@ class _ProductItemState extends State<ProductItem> {
         );
 
       case MenuPage.orders:
-        // ✅ แสดงรายการใบเสร็จ
+        //แสดงรายการใบเสร็จ
         return OrderListPanelWidget(
           token: widget.token,
           onSelect: onReceiptSelected,
         );
 
       case MenuPage.products:
+      //หน้าหลัก
       default:
         return ProductPanelWidget(
           products: products,
@@ -379,6 +382,7 @@ class _ProductItemState extends State<ProductItem> {
         return ReceiptDetailPanelWidget(
           receiptId: selectedReceiptId!,
           token: widget.token,
+          skuMasters: products,
         );
       } else {
         return Expanded(

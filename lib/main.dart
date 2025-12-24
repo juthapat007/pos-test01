@@ -21,12 +21,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "My titel!",
 
-      // 🟦 เพิ่ม routes ตรงนี้
+      // เพิ่ม routes ตรงนี้
       routes: {
         //ProductItem': (context) => const ProductItem()},
       },
       home: Scaffold(
-        
         // appBar: AppBar(
         //   title: const Text("My Store!"),
         //   backgroundColor: Color(0xFF2F4366),
