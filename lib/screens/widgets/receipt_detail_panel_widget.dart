@@ -1,55 +1,6 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_application_2/services/receipt_service.dart';
-
-// /// Widget สำหรับแสดงรายละเอียดใบเสร็จ/บิล
-// /// ใช้แสดงข้อมูลเมื่อเลือกใบเสร็จจาก OrderListPanel
-// class ReceiptDetailPanelWidget extends StatelessWidget {
-//   final int receiptId;
-//   final String token;
-
-//   const ReceiptDetailPanelWidget({
-//     super.key,
-//     required this.receiptId,
-//     required this.token,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder<List<ReceiptItems>>(
-//       future: ReceiptDetailService.fetchReceiptItems(
-//         token,
-//         receiptId, // ✅ ครบ 2 ตัว
-//       ),
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return const Center(child: CircularProgressIndicator());
-//         }
-
-//         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-//           return const Center(child: Text('No items in this receipt'));
-//         }
-
-//         final items = snapshot.data!;
-
-//         return ListView.builder(
-//           itemCount: items.length,
-//           itemBuilder: (context, index) {
-//             final item = items[index];
-//             return ListTile(
-//               title: Text(item.name),
-//               trailing: Text('x${item.quantity}'),
-//               subtitle: Text('฿${item.price}'),
-//             );
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/services/receipt_service.dart';
-import 'package:flutter_application_2/models/receipt_item.dart'; // Add this import
+import 'package:flutter_application_2/services/receipt_item_service.dart'; // ✅ ใช้ receipt_item_service.dart
+import 'package:flutter_application_2/models/receipt_item.dart';
 
 /// Widget สำหรับแสดงรายละเอียดใบเสร็จ/บิล
 /// ใช้แสดงข้อมูลเมื่อเลือกใบเสร็จจาก OrderListPanel
@@ -81,14 +32,34 @@ class ReceiptDetailPanelWidget extends StatelessWidget {
           ],
         ),
         child: FutureBuilder<List<ReceiptItems>>(
-          future: ReceiptDetailService.fetchReceiptItems(token, receiptId),
+          future: ReceiptItemService.fetchReceiptItems(
+            token,
+            receiptId,
+          ), // ✅ เปลี่ยนเป็น ReceiptItemService
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
 
             if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 64,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Error: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
+              );
             }
 
             if (!snapshot.hasData || snapshot.data!.isEmpty) {

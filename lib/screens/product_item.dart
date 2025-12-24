@@ -11,7 +11,7 @@ import 'widgets/product_panel_widget.dart';
 import 'widgets/manage_product_panel_widget.dart';
 import 'widgets/manage_side_panel_widget.dart';
 import 'widgets/order_panel_widget.dart';
-import 'widgets/receipt_detail_panel_widget.dart';
+import 'widgets/order_list_panel_widget.dart'; // ✅ เพิ่ม import
 
 enum MenuPage { products, manageProducts, orders }
 
@@ -53,6 +53,10 @@ class _ProductItemState extends State<ProductItem> {
   void onMenuChanged(MenuPage page) {
     setState(() {
       currentPage = page;
+      // รีเซ็ต selectedReceiptId เมื่อเปลี่ยนหน้า
+      if (page != MenuPage.orders) {
+        selectedReceiptId = null;
+      }
     });
   }
 
@@ -245,12 +249,6 @@ class _ProductItemState extends State<ProductItem> {
     }
   }
 
-  // void onMenuChanged(MenuPage page) {
-  //   setState(() {
-  //     currentPage = page;
-  //   });
-  // }
-
   void onAddProductPressed() {
     setState(() {
       manageMode = ManageMode.add;
@@ -279,7 +277,6 @@ class _ProductItemState extends State<ProductItem> {
     });
   }
 
-  //เอาไว้แบ่งPanel หน้า
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -319,12 +316,13 @@ class _ProductItemState extends State<ProductItem> {
           onDeletePressed: confirmDeleteProduct,
           onRefresh: loadProducts,
         );
-      // case MenuPage.orders:
-      //   // แก้ตรงนี้
-      //   return OrderListPanelWidget(
-      //     token: widget.token,
-      //     onSelect: onReceiptSelected,
-      //   );
+
+      case MenuPage.orders:
+        // ✅ แสดงรายการใบเสร็จ
+        return OrderListPanelWidget(
+          token: widget.token,
+          onSelect: onReceiptSelected,
+        );
 
       case MenuPage.products:
       default:
@@ -357,7 +355,6 @@ class _ProductItemState extends State<ProductItem> {
       ),
     );
 
-    // เคลียร์ตะกร้าหลังชำระเงิน
     clearCart();
   }
 
@@ -384,7 +381,6 @@ class _ProductItemState extends State<ProductItem> {
           token: widget.token,
         );
       } else {
-        // ยังไม่ได้เลือกใบเสร็จ
         return Expanded(
           flex: 3,
           child: Container(
