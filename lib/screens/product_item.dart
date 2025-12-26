@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/category.dart';
+import 'package:flutter_application_2/models/receipt.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
+import 'package:flutter_application_2/screens/login_screen.dart';
 import 'package:flutter_application_2/screens/widgets/receipt_detail_panel_widget.dart';
+import 'package:flutter_application_2/services/cart_item_service.dart';
+import 'package:flutter_application_2/services/payment_service.dart';
 import 'package:flutter_application_2/services/sku_service.dart';
 import 'package:flutter_application_2/models/cartitem.dart';
 import 'package:flutter_application_2/services/category_service.dart';
 import 'widgets/menu_bar/menu_bar_widget.dart';
 import 'widgets/menu_bar/menu_button.dart';
-import 'widgets/product_panel_widget.dart';
+import 'widgets/product/product_panel_widget.dart';
 import 'widgets/manage_product_panel_widget.dart';
 import 'widgets/manage_side_panel_widget.dart';
 import 'widgets/order_panel_widget.dart';
@@ -38,14 +42,16 @@ class _ProductItemState extends State<ProductItem> {
   bool isLoading = true;
   bool isSaving = false;
   bool isDeleting = false;
-  int? selectedReceiptId;
+  // int? selectedReceiptId;
+  String _searchKeyword = '';
+  Receipt? selectedReceipt;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
-  void onReceiptSelected(int receiptId) {
+  void onReceiptSelected(Receipt receiptId) {
     setState(() {
-      selectedReceiptId = receiptId;
+      selectedReceipt = receiptId;
     });
 
     print('เลือกใบเสร็จ ID: $receiptId');
@@ -55,8 +61,11 @@ class _ProductItemState extends State<ProductItem> {
     setState(() {
       currentPage = page;
       // รีเซ็ต selectedReceiptId เมื่อเปลี่ยนหน้า
-      if (page != MenuPage.orders) {
-        selectedReceiptId = null;
+      if (page != MenuPage.products) {
+        // reset search
+        _searchKeyword = '';
+        loadProducts();
+        // selectedReceiptId = null;
       }
     });
   }
@@ -260,6 +269,20 @@ class _ProductItemState extends State<ProductItem> {
     });
   }
 
+  // void _handleLogout(BuildContext context) {
+  //   Navigator.of(context).pushAndRemoveUntil(
+  //     MaterialPageRoute(builder: (_) => const LoginScreen()),
+  //     (route) => false,
+  //   );
+  // }
+  void _handleLogout(BuildContext context) {
+    print('HANDLE LOGOUT');
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+      (route) => false,
+    );
+  }
+
   void onEditProductPressed(SkuMaster product) {
     setState(() {
       manageMode = ManageMode.edit;
@@ -293,6 +316,10 @@ class _ProductItemState extends State<ProductItem> {
                   MenuBarWidget(
                     currentPage: currentPage,
                     onMenuChanged: onMenuChanged,
+                    onLogout: () {
+                      print('LOGOUT CALLBACK TRIGGERED');
+                      _handleLogout(context);
+                    },
                   ),
                   const SizedBox(width: 12),
                   _buildCenterPanel(),
@@ -333,6 +360,7 @@ class _ProductItemState extends State<ProductItem> {
           products: products,
           isLoading: isLoading,
           onProductTap: addToCart,
+          onSearch: searchProducts,
         );
     }
   }
@@ -343,22 +371,53 @@ class _ProductItemState extends State<ProductItem> {
     });
   }
 
-  void processPayment() {
-    if (cart.isEmpty) {
+  Future<void> processPayment() async {
+    if (cart.isEmpty) return;
+
+    try {
+      // 1. ส่ง cart_items
+      for (final item in cart) {
+        await CartItemService.addToCartItem(
+          token: widget.token,
+          skuMasterId: item.product.id,
+          quantity: item.quantity,
+        );
+      }
+
+      // 2. ชำระเงิน
+      await PaymentService.payCash(widget.token);
+
+      // 3. เคลียร์ cart หน้า UI
+      clearCart();
+
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Cart is empty')));
+      ).showSnackBar(const SnackBar(content: Text('Payment successful')));
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Payment failed: $e')));
+    }
+  }
+
+  Future<void> searchProducts(String keyword) async {
+    if (keyword.isEmpty) {
+      loadProducts(); // โหลดทั้งหมดกลับมา
       return;
     }
 
-    // TODO: เพิ่ม logic สำหรับการชำระเงินจริง
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Payment processed: ฿${totalPrice.toStringAsFixed(2)}'),
-      ),
-    );
+    setState(() => isLoading = true);
 
-    clearCart();
+    try {
+      final result = await SkuService.searchSkuMasters(widget.token, keyword);
+      setState(() {
+        products = result;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() => isLoading = false);
+      debugPrint('Search error: $e');
+    }
   }
 
   Widget _buildRightPanel() {
@@ -378,15 +437,15 @@ class _ProductItemState extends State<ProductItem> {
     }
 
     if (currentPage == MenuPage.orders) {
-      if (selectedReceiptId != null) {
+      if (selectedReceipt != null) {
         return ReceiptDetailPanelWidget(
-          receiptId: selectedReceiptId!,
+          receipt: selectedReceipt!,
           token: widget.token,
           skuMasters: products,
         );
       } else {
         return Expanded(
-          flex: 3,
+          flex: 2,
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -394,7 +453,7 @@ class _ProductItemState extends State<ProductItem> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),

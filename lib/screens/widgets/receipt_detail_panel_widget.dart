@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/sku_master.dart' show SkuMaster;
 import 'package:flutter_application_2/services/receipt_item_service.dart'; // ✅ ใช้ receipt_item_service.dart
 import 'package:flutter_application_2/models/receipt_item.dart';
 import 'package:flutter_application_2/utils/sku_helper.dart';
+import 'package:flutter_application_2/models/receipt.dart';
+import '';
 
 // Widget สำหรับแสดงรายละเอียดใบเสร็จ/บิล
 // ใช้แสดงข้อมูลเมื่อเลือกใบเสร็จจาก OrderListPanel
 
 class ReceiptDetailPanelWidget extends StatelessWidget {
-  final int receiptId;
+  final Receipt receipt;
+
   final String token;
   final List<SkuMaster> skuMasters;
 
   const ReceiptDetailPanelWidget({
     super.key,
-    required this.receiptId,
+    required this.receipt,
     required this.token,
     required this.skuMasters,
   });
@@ -22,7 +26,8 @@ class ReceiptDetailPanelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
+      flex: 2,
+
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -36,52 +41,76 @@ class ReceiptDetailPanelWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: FutureBuilder<List<ReceiptItem>>(
-          future: ReceiptItemService.fetchByReceiptId(token, receiptId),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('No items'));
-            }
 
-            if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            }
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Receipt Details',
+              style: TextStyle(
+                fontSize: AppSpacing.lg,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Divider(height: AppSpacing.lg),
+            Text(
+              receipt.receiptNo,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: FutureBuilder<List<ReceiptItem>>(
+                future: ReceiptItemService.fetchByReceiptId(token, receipt.id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-            final items = snapshot.data!;
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
 
-            if (items.isEmpty) {
-              return const Center(child: Text('No items in this receipt'));
-            }
+                  final items = snapshot.data ?? [];
 
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
+                  if (items.isEmpty) {
+                    return const Center(
+                      child: Text('No items in this receipt'),
+                    );
+                  }
 
-                final SkuName = SkuHelper.getSkuName(
-                  skuId: item.skuMasterId,
-                  skus: skuMasters,
-                );
+                  return ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
 
-                return ListTile(
-                  title: Text(
-                    SkuName,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  subtitle: Text(
-                    'Amout: ${item.quantity} • ${item.quantity * item.price}฿',
-                  ),
-                );
-              },
-            );
-          },
+                      print(
+                        'QTY: ${item.quantity}, PRICE: ${item.price}',
+                      ); // ✅ debug
+
+                      final skuName = SkuHelper.getSkuName(
+                        skuId: item.skuMasterId,
+                        skus: skuMasters,
+                      );
+
+                      return ListTile(
+                        title: Text(
+                          skuName,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text('Amount: ${item.quantity}'),
+                        trailing: Text(
+                          '฿${(item.quantity * item.price).toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

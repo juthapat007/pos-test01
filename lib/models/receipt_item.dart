@@ -26,9 +26,11 @@
 
 // Create this new file: lib/models/receipt_items.dart
 
+import 'package:flutter_application_2/models/receipt.dart';
+
 class ReceiptItem {
   final int id;
-  final int receiptId;
+  final int receipt;
   final int skuMasterId;
   // final String name;
   final double price;
@@ -37,7 +39,7 @@ class ReceiptItem {
 
   ReceiptItem({
     required this.id,
-    required this.receiptId,
+    required this.receipt,
     required this.skuMasterId,
     // required this.name,
     required this.price,
@@ -48,7 +50,7 @@ class ReceiptItem {
   factory ReceiptItem.fromJson(Map<String, dynamic> json) {
     return ReceiptItem(
       id: json['id'],
-      receiptId: json['receipt_id'],
+      receipt: json['receipt_id'],
       skuMasterId: json['sku_master_id'],
       // name: json['name'],
       price: double.parse(json['price'].toString()),

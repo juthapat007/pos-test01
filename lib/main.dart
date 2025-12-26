@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/screens/home.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
 
 import 'package:flutter_application_2/screens/login_screen.dart';

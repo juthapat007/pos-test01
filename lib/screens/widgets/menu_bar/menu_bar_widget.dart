@@ -6,11 +6,13 @@ import 'menu_button.dart'; // ✅ import จากไฟล์ที่แยก
 class MenuBarWidget extends StatelessWidget {
   final MenuPage currentPage;
   final Function(MenuPage) onMenuChanged;
+  final VoidCallback onLogout;
 
   const MenuBarWidget({
     super.key,
     required this.currentPage,
     required this.onMenuChanged,
+    required this.onLogout,
   });
 
   @override
@@ -40,7 +42,16 @@ class MenuBarWidget extends StatelessWidget {
               onPressed: () => onMenuChanged(MenuPage.orders),
             ),
             const Spacer(),
-            const MenuButton('Logout', isDanger: true),
+            MenuButton(
+              'Logout',
+              isDanger: true,
+              onPressed: () {
+                print('LOGOUT CLICKED');
+                onLogout();
+              },
+
+              icon: Icons.logout,
+            ),
           ],
         ),
       ),

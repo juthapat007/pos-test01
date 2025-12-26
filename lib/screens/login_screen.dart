@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
 import 'package:flutter_application_2/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: const InputDecoration(labelText: 'Username'),
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: AppSpacing.md),
 
             TextField(
               controller: _passwordController,
@@ -74,12 +75,12 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: const InputDecoration(labelText: 'Password'),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSpacing.md),
 
             if (_errorMessage != null)
               Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.lg),
 
             SizedBox(
               width: double.infinity,

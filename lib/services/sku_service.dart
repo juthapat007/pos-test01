@@ -141,4 +141,41 @@ class SkuService {
       throw Exception('Failed to update product: ${response.body}');
     }
   }
+
+  static Future<List<SkuMaster>> searchSkuMasters(
+    String token,
+    String keyword,
+  ) async {
+    final uri = Uri.parse(
+      '$baseUrl/sku_masters/search?keyword=${Uri.encodeQueryComponent(keyword)}',
+    );
+
+    final response = await http.get(
+      uri,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('=== SEARCH SKU RESPONSE ===');
+    print('STATUS: ${response.statusCode}');
+    print('BODY: ${response.body}');
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      // reuse logic เดิม
+      if (data is List) {
+        return data.map((e) => SkuMaster.fromJson(e)).toList();
+      } else if (data is Map && data.containsKey('sku_masters')) {
+        final List items = data['sku_masters'];
+        return items.map((e) => SkuMaster.fromJson(e)).toList();
+      }
+
+      throw Exception('Unexpected search response format');
+    } else {
+      throw Exception('Search failed: ${response.statusCode}');
+    }
+  }
 }

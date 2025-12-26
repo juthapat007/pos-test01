@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/receipt.dart';
 import 'package:flutter_application_2/services/receipt_list_service.dart';
 import 'common_widgets.dart';
@@ -6,7 +7,7 @@ import 'common_widgets.dart';
 /// Widget สำหรับแสดงรายการใบเสร็จทั้งหมด
 class OrderListPanelWidget extends StatefulWidget {
   final String token;
-  final Function(int) onSelect;
+  final Function(Receipt) onSelect;
 
   const OrderListPanelWidget({
     super.key,
@@ -21,15 +22,15 @@ class OrderListPanelWidget extends StatefulWidget {
 class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
   List<Receipt> receipts = [];
   bool isLoading = true;
-  int? selectedReceiptId;
+  Receipt? selectedReceipt;
 
   @override
   void initState() {
     super.initState();
-    _loadReceipts();
+    loadReceipts();
   }
 
-  Future<void> _loadReceipts() async {
+  Future<void> loadReceipts() async {
     setState(() => isLoading = true);
 
     try {
@@ -64,17 +65,20 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
               children: [
                 const Text(
                   'Receipt List',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: AppSpacing.lg,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.refresh),
-                  onPressed: _loadReceipts,
+                  onPressed: loadReceipts,
                   tooltip: 'Refresh',
                 ),
               ],
             ),
-            const Divider(height: 24),
+            Divider(height: AppSpacing.md),
 
             // Content
             Expanded(
@@ -98,7 +102,7 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
                       itemCount: receipts.length,
                       itemBuilder: (context, index) {
                         final receipt = receipts[index];
-                        final isSelected = selectedReceiptId == receipt.id;
+                        final isSelected = selectedReceipt == receipt.id;
 
                         return Card(
                           margin: const EdgeInsets.only(bottom: 8),
@@ -108,13 +112,13 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
                           elevation: isSelected ? 4 : 1,
                           child: ListTile(
                             onTap: () {
-                              setState(() => selectedReceiptId = receipt.id);
-                              widget.onSelect(receipt.id);
+                              setState(() => selectedReceipt = receipt);//ไม่ได้ค่อยกลับมาแก้ เติม id
+                              widget.onSelect(receipt);
                             },
                             leading: CircleAvatar(
                               backgroundColor: Colors.blue,
                               child: Text(
-                                '#${receipt.id}',
+                                '${receipt.id}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -125,7 +129,7 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
                             title: Text(
                               receipt.receiptNo,
                               style: const TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             subtitle: Text(

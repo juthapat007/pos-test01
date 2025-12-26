@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/models/receipt_item.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
+import 'package:flutter_application_2/services/receipt_item_service.dart';
 import 'common_widgets.dart';
 
 class ManageProductPanelWidget extends StatelessWidget {
@@ -21,9 +23,9 @@ class ManageProductPanelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
+      flex: 4,
       child: Container(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         decoration: CommonWidgets.boxStyle(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

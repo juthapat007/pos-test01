@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/cartitem.dart';
 import 'common_widgets.dart';
 
@@ -33,7 +34,7 @@ class OrderPanelWidget extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            /// 🛒 รายการสินค้า
+            // รายการสินค้า
             Expanded(
               child: cart.isEmpty
                   ? const Center(
@@ -57,13 +58,13 @@ class OrderPanelWidget extends StatelessWidget {
                           subtitle: Text(
                             '฿${item.product.price} x ${item.quantity}',
                           ),
-                          trailing: Text(
-                            '฿${item.product.price * item.quantity}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
+                          // trailing: Text(
+                          //   '฿${item.product.price * item.quantity}',
+                          //   style: const TextStyle(
+                          //     fontWeight: FontWeight.bold,
+                          //     fontSize: 12,
+                          //   ),
+                          // ),
                         );
                       },
                     ),
@@ -71,15 +72,15 @@ class OrderPanelWidget extends StatelessWidget {
 
             const Divider(),
 
-            /// 💰 รวมราคา
+            // รวมราคา
             Text(
               'Total: ฿${totalPrice.toStringAsFixed(2)}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: AppSpacing.lg),
 
-            /// 🔘 ปุ่ม
+            // ปุ่ม
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -88,7 +89,7 @@ class OrderPanelWidget extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: AppSpacing.lg),
 
             SizedBox(
               width: double.infinity,

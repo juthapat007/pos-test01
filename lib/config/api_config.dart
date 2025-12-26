@@ -1,1 +1,1 @@
-const String baseUrl = 'http://192.168.1.30:3000/';
+const String baseUrl = 'https://apipos-production.up.railway.app';

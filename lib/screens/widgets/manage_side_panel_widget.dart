@@ -33,7 +33,7 @@ class ManageSidePanelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
+      flex: 2,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: CommonWidgets.boxStyle(),
@@ -157,6 +157,7 @@ class _EditProductForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+
       children: [
         const Text(
           'Edit Product',
