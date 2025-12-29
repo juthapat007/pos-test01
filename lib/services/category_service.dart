@@ -13,9 +13,9 @@ class CategoryService {
       },
     );
 
-    print('=== CATEGORIES RESPONSE ===');
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
+    // print('=== CATEGORIES RESPONSE ===');
+    // print('STATUS: ${response.statusCode}');
+    // print('BODY: ${response.body}');
 
     if (response.statusCode == 200) {
       final dynamic data = jsonDecode(response.body);

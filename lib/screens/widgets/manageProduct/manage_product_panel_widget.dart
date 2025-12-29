@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/receipt_item.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
 import 'package:flutter_application_2/services/receipt_item_service.dart';
-import 'common_widgets.dart';
+import '../common_widgets.dart';
 
 class ManageProductPanelWidget extends StatelessWidget {
   final List<SkuMaster> products;

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/cartitem.dart';
-import 'common_widgets.dart';
+import '../common_widgets.dart';
 
 class OrderPanelWidget extends StatelessWidget {
   final List<CartItem> cart;
   final double totalPrice;
   final VoidCallback onCancel;
   final VoidCallback onPay;
+  final void Function(CartItem item) onRemoveItem;
 
   const OrderPanelWidget({
     super.key,
@@ -15,6 +16,7 @@ class OrderPanelWidget extends StatelessWidget {
     required this.totalPrice,
     required this.onCancel,
     required this.onPay,
+    required this.onRemoveItem,
   });
 
   @override
@@ -58,13 +60,13 @@ class OrderPanelWidget extends StatelessWidget {
                           subtitle: Text(
                             '฿${item.product.price} x ${item.quantity}',
                           ),
-                          // trailing: Text(
-                          //   '฿${item.product.price * item.quantity}',
-                          //   style: const TextStyle(
-                          //     fontWeight: FontWeight.bold,
-                          //     fontSize: 12,
-                          //   ),
-                          // ),
+                          trailing: IconButton(
+                            icon: const Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                            ),
+                            onPressed: () => onRemoveItem(item),
+                          ),
                         );
                       },
                     ),
@@ -78,7 +80,7 @@ class OrderPanelWidget extends StatelessWidget {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
-            SizedBox(height: AppSpacing.lg),
+            SizedBox(height: TextSpacing.lg),
 
             // ปุ่ม
             SizedBox(
@@ -89,7 +91,7 @@ class OrderPanelWidget extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: AppSpacing.lg),
+            SizedBox(height: TextSpacing.lg),
 
             SizedBox(
               width: double.infinity,

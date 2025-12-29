@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: const InputDecoration(labelText: 'Username'),
             ),
 
-            SizedBox(height: AppSpacing.md),
+            SizedBox(height: TextSpacing.md),
 
             TextField(
               controller: _passwordController,
@@ -75,12 +75,12 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: const InputDecoration(labelText: 'Password'),
             ),
 
-            const SizedBox(height: AppSpacing.md),
+            const SizedBox(height: TextSpacing.md),
 
             if (_errorMessage != null)
               Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
 
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: TextSpacing.lg),
 
             SizedBox(
               width: double.infinity,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/category.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
-import '../product_item.dart';
-import 'common_widgets.dart';
+import '../../product_item.dart';
+import '../common_widgets.dart';
 
 class ManageSidePanelWidget extends StatelessWidget {
   final ManageMode manageMode;
@@ -59,7 +59,7 @@ class ManageSidePanelWidget extends StatelessWidget {
           ),
           ManageMode.none => const Center(
             child: Text(
-              'Select product or add new',
+              'Edit and Add Product',
               style: TextStyle(color: Colors.grey),
             ),
           ),

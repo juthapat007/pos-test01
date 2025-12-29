@@ -13,34 +13,34 @@ class SkuService {
       },
     );
 
-    print('=== SKU MASTERS RESPONSE ===');
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
-    print('BODY TYPE: ${response.body.runtimeType}');
+    // print('=== SKU MASTERS RESPONSE ===');
+    // print('STATUS: ${response.statusCode}');
+    // print('BODY: ${response.body}');
+    // print('BODY TYPE: ${response.body.runtimeType}');
 
     if (response.statusCode == 200) {
       final dynamic data = jsonDecode(response.body);
-      print('DECODED TYPE: ${data.runtimeType}');
-      print('DECODED DATA: $data');
+      // print('DECODED TYPE: ${data.runtimeType}');
+      // print('DECODED DATA: $data');
 
       // ✅ เช็คว่าเป็น Array หรือ Object
       if (data is List) {
-        print('✅ Data is List - Processing directly');
+        // print('✅ Data is List - Processing directly');
         return data.map((e) => SkuMaster.fromJson(e)).toList();
       } else if (data is Map) {
-        print('⚠️ Data is Map - Keys: ${data.keys}');
+        // print('⚠️ Data is Map - Keys: ${data.keys}');
 
         // ลองหา key ที่เป็น Array
         if (data.containsKey('sku_masters')) {
-          print('✅ Found key: sku_masters');
+          // print('✅ Found key: sku_masters');
           final List items = data['sku_masters'];
           return items.map((e) => SkuMaster.fromJson(e)).toList();
         } else if (data.containsKey('data')) {
-          print('✅ Found key: data');
+          // print('✅ Found key: data');
           final List items = data['data'];
           return items.map((e) => SkuMaster.fromJson(e)).toList();
         } else {
-          print('❌ No array key found. Available keys: ${data.keys}');
+          // print('❌ No array key found. Available keys: ${data.keys}');
           throw Exception('Unexpected JSON format. Keys: ${data.keys}');
         }
       }
@@ -69,9 +69,9 @@ class SkuService {
       }),
     );
 
-    print('=== CREATE SKU RESPONSE ===');
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
+    // print('=== CREATE SKU RESPONSE ===');
+    // print('STATUS: ${response.statusCode}');
+    // print('BODY: ${response.body}');
 
     if (response.statusCode == 201 || response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -96,9 +96,9 @@ class SkuService {
       },
     );
 
-    print('=== DELETE SKU RESPONSE ===');
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
+    // print('=== DELETE SKU RESPONSE ===');
+    // print('STATUS: ${response.statusCode}');
+    // print('BODY: ${response.body}');
 
     if (response.statusCode != 200 && response.statusCode != 204) {
       throw Exception(
@@ -125,9 +125,9 @@ class SkuService {
       }),
     );
 
-    print('=== UPDATE SKU RESPONSE ===');
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
+    // print('=== UPDATE SKU RESPONSE ===');
+    // print('STATUS: ${response.statusCode}');
+    // print('BODY: ${response.body}');
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -158,9 +158,9 @@ class SkuService {
       },
     );
 
-    print('=== SEARCH SKU RESPONSE ===');
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
+    // print('=== SEARCH SKU RESPONSE ===');
+    // print('STATUS: ${response.statusCode}');
+    // print('BODY: ${response.body}');
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

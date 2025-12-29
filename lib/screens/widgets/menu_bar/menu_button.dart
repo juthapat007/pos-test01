@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
 
 // ปุ่มเมนูที่ใช้ใน MenuBar
 // แยกออกมาเป็นไฟล์เดี่ยวเพื่อให้จัดการง่ายและลด rebuild
@@ -14,6 +15,7 @@ class MenuButton extends StatelessWidget {
     this.isDanger = false,
     this.onPressed,
     this.icon,
+    // required Text child,
   });
 
   @override
@@ -48,17 +50,23 @@ class MenuButton extends StatelessWidget {
   // สร้าง content ข้างในปุ่ม (icon + text)
   Widget _buildButtonContent(Color textColor) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (icon != null) ...[
           Icon(icon, size: 20, color: textColor),
-          const SizedBox(width: 12),
+          const SizedBox(width: TextSpacing.md),
         ],
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: isDanger ? FontWeight.w600 : FontWeight.w500,
-            color: textColor,
+        Flexible(
+          child: Text(
+            text,
+            maxLines: 2,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: TextSpacing.sm,
+              fontWeight: isDanger ? FontWeight.bold : FontWeight.bold,
+              color: textColor,
+            ),
           ),
         ),
       ],

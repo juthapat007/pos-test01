@@ -48,11 +48,11 @@ class ReceiptDetailPanelWidget extends StatelessWidget {
             const Text(
               'Receipt Details',
               style: TextStyle(
-                fontSize: AppSpacing.lg,
+                fontSize: TextSpacing.lg,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Divider(height: AppSpacing.lg),
+            Divider(height: TextSpacing.lg),
             Text(
               receipt.receiptNo,
               style: const TextStyle(fontWeight: FontWeight.bold),
@@ -81,10 +81,6 @@ class ReceiptDetailPanelWidget extends StatelessWidget {
                     itemCount: items.length,
                     itemBuilder: (context, index) {
                       final item = items[index];
-
-                      print(
-                        'QTY: ${item.quantity}, PRICE: ${item.price}',
-                      ); // ✅ debug
 
                       final skuName = SkuHelper.getSkuName(
                         skuId: item.skuMasterId,

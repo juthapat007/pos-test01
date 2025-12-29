@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
-import 'menu_button.dart'; // ✅ import จากไฟล์ที่แยกแล้ว
+import 'menu_button.dart'; 
 
 /// MenuBar สำหรับเลือกหน้าต่างๆ
 class MenuBarWidget extends StatelessWidget {
@@ -26,7 +26,7 @@ class MenuBarWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             MenuButton(
-              // ✅ ใช้จากไฟล์ menu_button.dart
+              //  ใช้จากไฟล์ menu_button.dart
               'Menu',
               icon: Icons.dashboard,
               onPressed: () => onMenuChanged(MenuPage.products),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/receipt.dart';
+import 'package:flutter_application_2/screens/widgets/common_widgets.dart';
 import 'package:flutter_application_2/services/receipt_list_service.dart';
-import 'common_widgets.dart';
+import '../common_widgets.dart';
 
-/// Widget สำหรับแสดงรายการใบเสร็จทั้งหมด
+// Widget สำหรับแสดงรายการใบเสร็จทั้งหมด
 class OrderListPanelWidget extends StatefulWidget {
   final String token;
   final Function(Receipt) onSelect;
@@ -66,7 +67,7 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
                 const Text(
                   'Receipt List',
                   style: TextStyle(
-                    fontSize: AppSpacing.lg,
+                    fontSize: TextSpacing.lg,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -78,7 +79,7 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
                 ),
               ],
             ),
-            Divider(height: AppSpacing.md),
+            Divider(height: TextSpacing.md),
 
             // Content
             Expanded(
@@ -112,7 +113,9 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
                           elevation: isSelected ? 4 : 1,
                           child: ListTile(
                             onTap: () {
-                              setState(() => selectedReceipt = receipt);//ไม่ได้ค่อยกลับมาแก้ เติม id
+                              setState(
+                                () => selectedReceipt = receipt,
+                              ); //ไม่ได้ค่อยกลับมาแก้ เติม id
                               widget.onSelect(receipt);
                             },
                             leading: CircleAvatar(
@@ -132,10 +135,11 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+
                             subtitle: Text(
                               '${_formatDate(receipt.createdAt)} • ${receipt.totalAmount} items',
-                              style: const TextStyle(fontSize: 12),
                             ),
+
                             trailing: Text(
                               '฿${receipt.totalSummary.toStringAsFixed(2)}',
                               style: const TextStyle(
@@ -155,7 +159,12 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
+  String _formatDate(DateTime? date) {
+    if (date == null) return '-';
+
+    final local = date.toLocal(); // ตัวนี้แหละกำหนดlocal timezone
+
+    return '${local.hour.toString().padLeft(2, '0')}:'
+        '${local.minute.toString().padLeft(2, '0')}';
   }
 }

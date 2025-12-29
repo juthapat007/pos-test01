@@ -3,7 +3,8 @@ import 'package:flutter_application_2/models/category.dart';
 import 'package:flutter_application_2/models/receipt.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
 import 'package:flutter_application_2/screens/login_screen.dart';
-import 'package:flutter_application_2/screens/widgets/receipt_detail_panel_widget.dart';
+import 'package:flutter_application_2/screens/widgets/receipts/order_list_panel_widget.dart';
+import 'package:flutter_application_2/screens/widgets/receipts/receipt_detail_panel_widget.dart';
 import 'package:flutter_application_2/services/cart_item_service.dart';
 import 'package:flutter_application_2/services/payment_service.dart';
 import 'package:flutter_application_2/services/sku_service.dart';
@@ -12,10 +13,11 @@ import 'package:flutter_application_2/services/category_service.dart';
 import 'widgets/menu_bar/menu_bar_widget.dart';
 import 'widgets/menu_bar/menu_button.dart';
 import 'widgets/product/product_panel_widget.dart';
-import 'widgets/manage_product_panel_widget.dart';
-import 'widgets/manage_side_panel_widget.dart';
-import 'widgets/order_panel_widget.dart';
-import 'widgets/order_list_panel_widget.dart'; // ✅ เพิ่ม import
+import 'widgets/manageProduct/manage_product_panel_widget.dart';
+import 'widgets/manageProduct/manage_side_panel_widget.dart';
+import 'widgets/product/order_panel_widget.dart';
+import 'widgets/receipts/order_list_panel_widget.dart';
+import 'widgets/receipts/receipt_detail_panel_widget.dart';
 import 'package:flutter_application_2/utils/sku_helper.dart';
 
 enum MenuPage { products, manageProducts, orders }
@@ -54,7 +56,7 @@ class _ProductItemState extends State<ProductItem> {
       selectedReceipt = receiptId;
     });
 
-    print('เลือกใบเสร็จ ID: $receiptId');
+    // print('เลือกใบเสร็จ ID: $receiptId');
   }
 
   void onMenuChanged(MenuPage page) {
@@ -416,7 +418,7 @@ class _ProductItemState extends State<ProductItem> {
       });
     } catch (e) {
       setState(() => isLoading = false);
-      debugPrint('Search error: $e');
+      // debugPrint('Search error: $e');
     }
   }
 
@@ -483,6 +485,11 @@ class _ProductItemState extends State<ProductItem> {
       totalPrice: totalPrice,
       onCancel: clearCart,
       onPay: processPayment,
+      onRemoveItem: (item) {
+        setState(() {
+          cart.remove(item);
+        });
+      },
     );
   }
 }

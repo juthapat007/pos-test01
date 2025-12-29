@@ -1,5 +1,6 @@
 // lib/services/receipt_list_service.dart
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../models/receipt.dart';
 import '../config/api_config.dart';
@@ -14,13 +15,10 @@ class ReceiptListService {
       },
     );
 
-    print('=== RECEIPTS RESPONSE ===');
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
-
     if (response.statusCode == 200) {
+      log(response.body);
       final dynamic data = jsonDecode(response.body);
-      print('DECODED TYPE: ${data.runtimeType}');
+      // print('DECODED TYPE: ${data.runtimeType}');
 
       // ถ้า response เป็น List
       if (data is List) {

@@ -1,31 +1,3 @@
-// class Receipt {
-//   final int id;
-//   final String receiptNo;
-//   final double totalSummary;
-//   final int totalAmount;
-//   final DateTime createdAt;
-
-//   Receipt({
-//     required this.id,
-//     required this.receiptNo,
-//     required this.totalSummary,
-//     required this.totalAmount,
-//     required this.createdAt,
-//   });
-
-//   factory Receipt.fromJson(Map<String, dynamic> json) {
-//     return Receipt(
-//       id: json['id'],
-//       receiptNo: json['receipt_no'],
-//       totalSummary: double.parse(json['total_summary'].toString()),
-//       totalAmount: json['total_amount'],
-//       createdAt: DateTime.parse(json['created_at']),
-//     );
-//   }
-// }
-
-// Create this new file: lib/models/receipt_items.dart
-
 import 'package:flutter_application_2/models/receipt.dart';
 
 class ReceiptItem {
