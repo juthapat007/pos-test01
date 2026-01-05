@@ -23,24 +23,24 @@ class SkuService {
       // print('DECODED TYPE: ${data.runtimeType}');
       // print('DECODED DATA: $data');
 
-      // ✅ เช็คว่าเป็น Array หรือ Object
+      // เช็คว่าเป็น Array หรือ Object
       if (data is List) {
-        // print('✅ Data is List - Processing directly');
+        // print('Data is List - Processing directly');
         return data.map((e) => SkuMaster.fromJson(e)).toList();
       } else if (data is Map) {
-        // print('⚠️ Data is Map - Keys: ${data.keys}');
+        // print('Data is Map - Keys: ${data.keys}');
 
         // ลองหา key ที่เป็น Array
         if (data.containsKey('sku_masters')) {
-          // print('✅ Found key: sku_masters');
+          // print(' Found key: sku_masters');
           final List items = data['sku_masters'];
           return items.map((e) => SkuMaster.fromJson(e)).toList();
         } else if (data.containsKey('data')) {
-          // print('✅ Found key: data');
+          // print(' Found key: data');
           final List items = data['data'];
           return items.map((e) => SkuMaster.fromJson(e)).toList();
         } else {
-          // print('❌ No array key found. Available keys: ${data.keys}');
+          // print('No array key found. Available keys: ${data.keys}');
           throw Exception('Unexpected JSON format. Keys: ${data.keys}');
         }
       }

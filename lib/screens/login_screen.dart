@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
+import 'package:flutter_application_2/screens/widgets/menu_bar/menu_button.dart';
 import 'package:flutter_application_2/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       final String token = result['token'];
 
-      // ✅ login สำเร็จ → ไปหน้า ProductItem พร้อม token
+      //  login สำเร็จ → ไปหน้า ProductItem พร้อม token
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => ProductItem(token: token)),
@@ -60,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Text('Login', style: Theme.of(context).textTheme.headlineMedium),
 
-            const SizedBox(height: 24),
+            SizedBox(height: HeightSpacing.hm),
 
             TextField(
               controller: _usernameController,
@@ -91,6 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ? const CircularProgressIndicator(color: Colors.white)
                     : const Text('Login'),
               ),
+            ),
+
+            AppButton(
+              text: 'Menu',
+              icon: Icons.dashboard,
+              onPressed: _isLoading ? null : _login,
             ),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/enums/btn_variant.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
-import 'menu_button.dart'; 
+import 'menu_button.dart';
 
 /// MenuBar สำหรับเลือกหน้าต่างๆ
 class MenuBarWidget extends StatelessWidget {
@@ -25,32 +26,34 @@ class MenuBarWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            MenuButton(
-              //  ใช้จากไฟล์ menu_button.dart
-              'Menu',
+            AppButton(
+              text: 'Menu',
               icon: Icons.dashboard,
               onPressed: () => onMenuChanged(MenuPage.products),
             ),
-            MenuButton(
-              'Manage products',
+
+            AppButton(
+              text: 'Manage products',
               icon: Icons.inventory,
               onPressed: () => onMenuChanged(MenuPage.manageProducts),
             ),
-            MenuButton(
-              'List receipt',
+
+            AppButton(
+              text: 'List receipt',
               icon: Icons.receipt_long,
               onPressed: () => onMenuChanged(MenuPage.orders),
             ),
+
             const Spacer(),
-            MenuButton(
-              'Logout',
-              isDanger: true,
+
+            AppButton(
+              text: 'Logout',
+              variant: BtnVariant.danger,
+              icon: Icons.logout,
               onPressed: () {
                 print('LOGOUT CLICKED');
                 onLogout();
               },
-
-              icon: Icons.logout,
             ),
           ],
         ),
@@ -73,4 +76,4 @@ class MenuBarWidget extends StatelessWidget {
   }
 }
 
-// ⚠️ ห้ามมี class _MenuButton อยู่ด้านล่างนี้!
+//  ห้ามมี class _MenuButton อยู่ด้านล่างนี้

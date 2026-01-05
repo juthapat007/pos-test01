@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
-import 'package:flutter_application_2/screens/widgets/common_widgets.dart';
-import 'product_card.dart';
+import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
+import 'package:flutter_application_2/screens/widgets/product/product_card.dart';
+import 'package:flutter_application_2/screens/widgets/receipts/order_list_panel_widget.dart';
 
 class ProductPanelWidget extends StatefulWidget {
+  final TextEditingController controller;
   final List<SkuMaster> products;
   final bool isLoading;
   final Function(SkuMaster) onProductTap;
@@ -12,6 +15,7 @@ class ProductPanelWidget extends StatefulWidget {
 
   const ProductPanelWidget({
     super.key,
+    required this.controller,
     required this.products,
     required this.isLoading,
     required this.onProductTap,
@@ -149,15 +153,15 @@ class _ProductPanelWidgetState extends State<ProductPanelWidget> {
                       ],
                     ),
 
-                    SizedBox(height: spacing),
+                    SizedBox(height: Spacing.sl),
 
                     // Search Field - ปรับความกว้าง
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                        maxWidth: width < 900 ? double.infinity : 400,
+                        maxWidth: width < 1200 ? double.infinity : 400,
                       ),
                       child: TextField(
-                        maxLength: 20,
+                        maxLength: 50,
                         decoration: const InputDecoration(
                           counterText: "",
                           labelText: "ค้นหา",

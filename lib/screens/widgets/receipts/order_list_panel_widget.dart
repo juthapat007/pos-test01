@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/receipt.dart';
-import 'package:flutter_application_2/screens/widgets/common_widgets.dart';
+import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
 import 'package:flutter_application_2/services/receipt_list_service.dart';
-import '../common_widgets.dart';
+import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
 
 // Widget สำหรับแสดงรายการใบเสร็จทั้งหมด
 class OrderListPanelWidget extends StatefulWidget {
@@ -162,9 +162,11 @@ class _OrderListPanelWidgetState extends State<OrderListPanelWidget> {
   String _formatDate(DateTime? date) {
     if (date == null) return '-';
 
-    final local = date.toLocal(); // ตัวนี้แหละกำหนดlocal timezone
+    final local = date
+        .toLocal(); // ตัวนี้แหละกำหนดlocal timezoneจากเครื่องผู้ใช้
 
-    return '${local.hour.toString().padLeft(2, '0')}:'
+    return '${local.day}/${local.month}/${local.year}\n'
+        '${local.hour.toString().padLeft(2, '0')}:'
         '${local.minute.toString().padLeft(2, '0')}';
   }
 }

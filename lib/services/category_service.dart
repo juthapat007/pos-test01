@@ -19,7 +19,7 @@ class CategoryService {
 
     if (response.statusCode == 200) {
       final dynamic data = jsonDecode(response.body);
-      print('DECODED TYPE: ${data.runtimeType}');
+      // print('DECODED TYPE: ${data.runtimeType}');
 
       if (data is List) {
         return data.map((e) => Category.fromJson(e)).toList();

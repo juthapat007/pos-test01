@@ -5,8 +5,15 @@ class TextSpacing {
   static const double lg = 22;
 }
 
+class Spacing {
+  static const double ss = 4;
+  static const double sm = 8;
+  static const double sl = 16;
+}
+
 class HeightSpacing {
-  static const double hs = 4;
-  static const double hm = 8;
-  static const double hl = 16;
+  static const double hs = 15;
+  static const double hm = 25;
+  static const double hl = 35;
+  static const double hxl = 45;
 }

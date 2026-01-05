@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/sku_master.dart' show SkuMaster;
-import 'package:flutter_application_2/services/receipt_item_service.dart'; // ✅ ใช้ receipt_item_service.dart
+import 'package:flutter_application_2/services/receipt_item_service.dart'; //  ใช้ receipt_item_service.dart
 import 'package:flutter_application_2/models/receipt_item.dart';
 import 'package:flutter_application_2/utils/sku_helper.dart';
 import 'package:flutter_application_2/models/receipt.dart';
-import '';
 
 // Widget สำหรับแสดงรายละเอียดใบเสร็จ/บิล
 // ใช้แสดงข้อมูลเมื่อเลือกใบเสร็จจาก OrderListPanel

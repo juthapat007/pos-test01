@@ -3,21 +3,21 @@ import 'package:flutter_application_2/models/category.dart';
 import 'package:flutter_application_2/models/receipt.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
 import 'package:flutter_application_2/screens/login_screen.dart';
-import 'package:flutter_application_2/screens/widgets/receipts/order_list_panel_widget.dart';
 import 'package:flutter_application_2/screens/widgets/receipts/receipt_detail_panel_widget.dart';
+
+import 'package:flutter_application_2/screens/widgets/product/product_panel_widget.dart';
+
+import 'package:flutter_application_2/screens/widgets/manageProduct/manage_product_panel_widget.dart';
+import 'package:flutter_application_2/screens/widgets/manageProduct/manage_side_panel_widget.dart';
+import 'package:flutter_application_2/screens/widgets/menu_bar/menu_bar_widget.dart';
+import 'package:flutter_application_2/screens/widgets/receipts/order_list_panel_widget.dart';
 import 'package:flutter_application_2/services/cart_item_service.dart';
 import 'package:flutter_application_2/services/payment_service.dart';
 import 'package:flutter_application_2/services/sku_service.dart';
 import 'package:flutter_application_2/models/cartitem.dart';
+import 'package:flutter_application_2/screens/widgets/receipts/order_panel_widget.dart';
+
 import 'package:flutter_application_2/services/category_service.dart';
-import 'widgets/menu_bar/menu_bar_widget.dart';
-import 'widgets/menu_bar/menu_button.dart';
-import 'widgets/product/product_panel_widget.dart';
-import 'widgets/manageProduct/manage_product_panel_widget.dart';
-import 'widgets/manageProduct/manage_side_panel_widget.dart';
-import 'widgets/product/order_panel_widget.dart';
-import 'widgets/receipts/order_list_panel_widget.dart';
-import 'widgets/receipts/receipt_detail_panel_widget.dart';
 import 'package:flutter_application_2/utils/sku_helper.dart';
 
 enum MenuPage { products, manageProducts, orders }
@@ -26,6 +26,7 @@ enum ManageMode { none, add, edit }
 
 class ProductItem extends StatefulWidget {
   final String token;
+  
 
   const ProductItem({super.key, required this.token});
 
@@ -44,12 +45,14 @@ class _ProductItemState extends State<ProductItem> {
   bool isLoading = true;
   bool isSaving = false;
   bool isDeleting = false;
+  
   // int? selectedReceiptId;
   String _searchKeyword = '';
   Receipt? selectedReceipt;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+final TextEditingController searchController = TextEditingController();
 
   void onReceiptSelected(Receipt receiptId) {
     setState(() {
@@ -117,7 +120,7 @@ class _ProductItemState extends State<ProductItem> {
         isLoading = false;
       });
     } catch (e) {
-      print(e);
+      // print(e);
       setState(() => isLoading = false);
     }
   }
@@ -324,7 +327,7 @@ class _ProductItemState extends State<ProductItem> {
                     },
                   ),
                   const SizedBox(width: 12),
-                  _buildCenterPanel(),
+                  buildCenterPanel(),
                   const SizedBox(width: 12),
                   _buildRightPanel(),
                 ],
@@ -336,11 +339,12 @@ class _ProductItemState extends State<ProductItem> {
     );
   }
 
-  Widget _buildCenterPanel() {
+  Widget buildCenterPanel() {
     switch (currentPage) {
       case MenuPage.manageProducts:
         //หน้าจัดการ
         return ManageProductPanelWidget(
+          
           products: products,
           onAddPressed: onAddProductPressed,
           onEditPressed: onEditProductPressed,
@@ -359,6 +363,7 @@ class _ProductItemState extends State<ProductItem> {
       //หน้าหลัก
       default:
         return ProductPanelWidget(
+          controller: searchController,
           products: products,
           isLoading: isLoading,
           onProductTap: addToCart,
