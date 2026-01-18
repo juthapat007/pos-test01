@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/enums/btn_variant.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
+import 'package:flutter_application_2/theme/app_decorations.dart';
 import 'menu_button.dart';
 
-/// MenuBar สำหรับเลือกหน้าต่างๆ
+// MenuBar สำหรับเลือกหน้า
 class MenuBarWidget extends StatelessWidget {
   final MenuPage currentPage;
   final Function(MenuPage) onMenuChanged;
@@ -22,7 +23,8 @@ class MenuBarWidget extends StatelessWidget {
       flex: 2,
       child: Container(
         padding: const EdgeInsets.all(12),
-        decoration: _buildBoxDecoration(),
+        // margin: const EdgeInsets.all(12),
+        decoration: AppDecorations.sidebar(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -40,6 +42,7 @@ class MenuBarWidget extends StatelessWidget {
 
             AppButton(
               text: 'List receipt',
+
               icon: Icons.receipt_long,
               onPressed: () => onMenuChanged(MenuPage.orders),
             ),
@@ -60,20 +63,4 @@ class MenuBarWidget extends StatelessWidget {
       ),
     );
   }
-
-  BoxDecoration _buildBoxDecoration() {
-    return BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withValues(alpha: 0.1),
-          blurRadius: 8,
-          offset: const Offset(0, 4),
-        ),
-      ],
-    );
-  }
 }
-
-//  ห้ามมี class _MenuButton อยู่ด้านล่างนี้

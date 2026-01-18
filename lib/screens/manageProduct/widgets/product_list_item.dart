@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
-import '../../../widgets/common/common_widgets.dart';
+import '../../common/common_widgets.dart';
 
 class ProductListItem extends StatelessWidget {
   final SkuMaster product;

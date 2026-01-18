@@ -17,3 +17,9 @@ class HeightSpacing {
   static const double hl = 35;
   static const double hxl = 45;
 }
+
+class WidthSpacing {
+  static const double ws = 30;
+  static const double wm = 40;
+  static const double wl = 50;
+}

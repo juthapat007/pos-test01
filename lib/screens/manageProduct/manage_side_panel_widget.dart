@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/category.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
-import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
+import 'package:flutter_application_2/screens/common/common_widgets.dart';
 
 import 'add_product_form.dart';
 import 'edit_product_form.dart';

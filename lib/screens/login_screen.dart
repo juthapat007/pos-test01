@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
-import 'package:flutter_application_2/screens/widgets/menu_bar/menu_button.dart';
+import 'package:flutter_application_2/screens/menu_bar/menu_button.dart';
 import 'package:flutter_application_2/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/screens/product_item.dart';
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(
               width: double.infinity,
-              height: 48,
+              height: HeightSpacing.hxl,
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _login,
                 child: _isLoading
@@ -94,11 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
-            AppButton(
-              text: 'Menu',
-              icon: Icons.dashboard,
-              onPressed: _isLoading ? null : _login,
-            ),
+            // AppButton(
+            //   text: 'Menu',
+            //   icon: Icons.dashboard,
+            //   onPressed: _isLoading ? null : _login,
+            // ),
           ],
         ),
       ),

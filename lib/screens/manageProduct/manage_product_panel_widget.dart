@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
+import 'package:flutter_application_2/enums/btn_variant.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
-import '../../widgets/common/common_widgets.dart';
-import 'manage_product_controller.dart';
+import 'package:flutter_application_2/screens/menu_bar/menu_button.dart';
+import '../common/common_widgets.dart';
+// import 'manage_product_controller.dart';
 import 'widgets/product_list_item.dart';
 
 class ManageProductPanelWidget extends StatelessWidget {
@@ -37,18 +40,25 @@ class ManageProductPanelWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
-                ElevatedButton.icon(
+                AppButton(
+                  text: 'Add Product',
+                  variant: BtnVariant.choose,
+                  icon: Icons.add,
+
                   onPressed: onAddPressed,
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add Product'),
                 ),
+                // ElevatedButton.icon(
+                //   onPressed: onAddPressed,
+                //   icon: const Icon(Icons.add),
+                //   label: const Text('Add Product'),
+                // ),
                 IconButton(
                   icon: const Icon(Icons.refresh),
                   onPressed: onRefresh,
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: HeightSpacing.hs),
             Expanded(
               child: ListView.builder(
                 itemCount: products.length,

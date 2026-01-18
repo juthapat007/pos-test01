@@ -1,1 +1,1 @@
-enum BtnVariant { primary, secondary, danger, outline, success, normal }
+enum BtnVariant { primary, secondary, danger, outline, success, normal, choose }

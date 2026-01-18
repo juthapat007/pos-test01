@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
-import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
+import 'package:flutter_application_2/screens/common/common_widgets.dart';
 import 'package:flutter_application_2/config/cons.dart';
 
 class ProductCard extends StatelessWidget {
@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: Spacing.sm),
+              const SizedBox(height: Spacing.sl),
 
               // 🔹 ราคา
               Text(

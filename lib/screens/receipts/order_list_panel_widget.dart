@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/receipt.dart';
-import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
+import 'package:flutter_application_2/screens/common/common_widgets.dart';
 import 'package:flutter_application_2/services/receipt_list_service.dart';
-import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
+import 'package:flutter_application_2/screens/common/common_widgets.dart';
 
 // Widget สำหรับแสดงรายการใบเสร็จทั้งหมด
 class OrderListPanelWidget extends StatefulWidget {

@@ -22,6 +22,26 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = AppButtonStyleResolver.resolve(variant);
 
+    if (style.outlined) {
+      return OutlinedButton.icon(
+        onPressed: onPressed,
+        icon: icon != null
+            ? Icon(icon, color: style.textColor)
+            : const SizedBox.shrink(),
+        label: Text(text),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: style.textColor,
+          side: BorderSide(
+            color: style.borderColor, // เส้นขอบ
+            width: style.borderWidth,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
@@ -70,4 +90,17 @@ class AppButton extends StatelessWidget {
       ],
     );
   }
+}
+
+BoxDecoration decoration() {
+  return BoxDecoration(
+    borderRadius: BorderRadius.circular(6),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.2),
+        blurRadius: 12,
+        offset: const Offset(0, 6),
+      ),
+    ],
+  );
 }

@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
-import 'package:flutter_application_2/screens/widgets/common/common_widgets.dart';
-import 'package:flutter_application_2/screens/widgets/product/product_card.dart';
-import 'package:flutter_application_2/screens/widgets/receipts/order_list_panel_widget.dart';
+import 'package:flutter_application_2/screens/common/common_widgets.dart';
+import 'package:flutter_application_2/screens/product/product_card.dart';
+import 'package:flutter_application_2/screens/receipts/order_list_panel_widget.dart';
 
 class ProductPanelWidget extends StatefulWidget {
   final TextEditingController controller;

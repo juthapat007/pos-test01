@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/config/cons.dart';
 import 'package:flutter_application_2/models/category.dart';
 import 'package:flutter_application_2/models/receipt.dart';
 import 'package:flutter_application_2/models/sku_master.dart';
+import 'package:flutter_application_2/screens/common/common_widgets.dart';
 import 'package:flutter_application_2/screens/login_screen.dart';
-import 'package:flutter_application_2/screens/widgets/receipts/receipt_detail_panel_widget.dart';
+import 'package:flutter_application_2/screens/receipts/receipt_detail_panel_widget.dart';
 
-import 'package:flutter_application_2/screens/widgets/product/product_panel_widget.dart';
+import 'package:flutter_application_2/screens/product/product_panel_widget.dart';
 
-import 'package:flutter_application_2/screens/widgets/manageProduct/manage_product_panel_widget.dart';
-import 'package:flutter_application_2/screens/widgets/manageProduct/manage_side_panel_widget.dart';
-import 'package:flutter_application_2/screens/widgets/menu_bar/menu_bar_widget.dart';
-import 'package:flutter_application_2/screens/widgets/receipts/order_list_panel_widget.dart';
+import 'package:flutter_application_2/screens/manageProduct/manage_product_panel_widget.dart';
+import 'package:flutter_application_2/screens/manageProduct/manage_side_panel_widget.dart';
+import 'package:flutter_application_2/screens/menu_bar/menu_bar_widget.dart';
+import 'package:flutter_application_2/screens/receipts/order_list_panel_widget.dart';
 import 'package:flutter_application_2/services/cart_item_service.dart';
 import 'package:flutter_application_2/services/payment_service.dart';
 import 'package:flutter_application_2/services/sku_service.dart';
 import 'package:flutter_application_2/models/cartitem.dart';
-import 'package:flutter_application_2/screens/widgets/receipts/order_panel_widget.dart';
+import 'package:flutter_application_2/screens/receipts/order_panel_widget.dart';
 
 import 'package:flutter_application_2/services/category_service.dart';
 import 'package:flutter_application_2/utils/sku_helper.dart';
@@ -26,7 +28,6 @@ enum ManageMode { none, add, edit }
 
 class ProductItem extends StatefulWidget {
   final String token;
-  
 
   const ProductItem({super.key, required this.token});
 
@@ -45,14 +46,14 @@ class _ProductItemState extends State<ProductItem> {
   bool isLoading = true;
   bool isSaving = false;
   bool isDeleting = false;
-  
+
   // int? selectedReceiptId;
   String _searchKeyword = '';
   Receipt? selectedReceipt;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
-final TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   void onReceiptSelected(Receipt receiptId) {
     setState(() {
@@ -344,7 +345,6 @@ final TextEditingController searchController = TextEditingController();
       case MenuPage.manageProducts:
         //หน้าจัดการ
         return ManageProductPanelWidget(
-          
           products: products,
           onAddPressed: onAddProductPressed,
           onEditPressed: onEditProductPressed,
@@ -454,24 +454,13 @@ final TextEditingController searchController = TextEditingController();
         return Expanded(
           flex: 2,
           child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
+            decoration: CommonWidgets.boxStyle(),
             child: const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.receipt_long, size: 64, color: Colors.grey),
-                  SizedBox(height: 16),
+                  SizedBox(height: HeightSpacing.hl),
                   Text(
                     'Select a receipt to view details',
                     style: TextStyle(fontSize: 16, color: Colors.grey),

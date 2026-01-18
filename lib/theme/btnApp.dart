@@ -2,13 +2,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const primary = Color(0x335c80);
+  static const primary = Color(0xFF0C0F1E);
+
   static const danger = Color(0xFFE53935);
 
-  static const textMain = Color(0xFF212121);
-  static const border = Color(0xFFE0E0E0);
-
-  static const background = Color(0xfff3b0);
+  static const textMain = Color(0xFF143041);
+  static const border = Color(0xFFE2773A);
+static const base = Color.fromARGB(255, 245, 237, 226);
+  static const background = Color(0xFFCB6B68);
+  static const choose = Color(0xFF68504C);
 }
 
 class AppTextStyles {

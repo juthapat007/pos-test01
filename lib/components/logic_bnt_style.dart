@@ -13,11 +13,20 @@ class AppButtonStyleResolver {
           background: AppColors.danger.withValues(alpha: 0.1),
           textColor: AppColors.danger,
         );
+      case BtnVariant.choose:
+        return AppButtonStyle(
+          background: Colors.transparent,
+          textColor: AppColors.primary,
+          borderColor: AppColors.primary.withOpacity(0.6),
+          borderWidth: 1.5,
+          outlined: true,
+        );
+
       case BtnVariant.normal:
       default:
         return AppButtonStyle(
           background: Colors.blueGrey.withValues(alpha: 0.1),
-          textColor: AppColors.textMain,
+          textColor: AppColors.primary,
         );
     }
   }
